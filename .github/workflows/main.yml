@@ -25,8 +25,13 @@ jobs:
         export COMPARE=$(jq '.compare' $GITHUB_EVENT_PATH|sed 's/\"//g' | sed 's/.*\/\([^\/]*\)$/\1/')
         export AFTER=$(jq '.after' $GITHUB_EVENT_PATH|sed 's/\"//g')
         export BEFORE=$(jq '.before' $GITHUB_EVENT_PATH|sed 's/\"//g')
-        
-        git diff $COMPARE server/pom.xml > temp
+        if [[ -n ${{DIFF_PATH}} ]]
+        then
+          echo "did't set DIFF_PATH "
+          export PATH="."
+        else
+          export PATH=${{DIFF_PATH}}
+        git diff $COMPARE $PATH > temp
         echo 'DIFFLOG<<EOF' >> $GITHUB_ENV
         cat temp
         cat temp >> $GITHUB_ENV
