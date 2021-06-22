@@ -33,6 +33,8 @@ jobs:
           export PATH=${{secrets.DIFF_PATH}}
         fi
         echo $PATH
+        echo "pwd"
+        pwd
         git diff $COMPARE $PATH > temp
         echo 'DIFFLOG<<EOF' >> $GITHUB_ENV
         cat temp
