@@ -2,6 +2,8 @@ name: get pull request info for Dingding
 
 on:
   push:
+    branches:    
+      - prod
 
 jobs:
   spring-boot:
