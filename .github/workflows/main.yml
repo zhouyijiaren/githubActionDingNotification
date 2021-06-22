@@ -25,12 +25,12 @@ jobs:
         export COMPARE=$(jq '.compare' $GITHUB_EVENT_PATH|sed 's/\"//g' | sed 's/.*\/\([^\/]*\)$/\1/')
         export AFTER=$(jq '.after' $GITHUB_EVENT_PATH|sed 's/\"//g')
         export BEFORE=$(jq '.before' $GITHUB_EVENT_PATH|sed 's/\"//g')
-        if [[ -n ${{DIFF_PATH}} ]]
+        if [[ -n ${{secrets.DIFF_PATH}} ]]
         then
           echo "did't set DIFF_PATH "
           export PATH="."
         else
-          export PATH=${{DIFF_PATH}}
+          export PATH=${{secrets.DIFF_PATH}}
         git diff $COMPARE $PATH > temp
         echo 'DIFFLOG<<EOF' >> $GITHUB_ENV
         cat temp
