@@ -4,7 +4,7 @@
 - It will show the diff.
 
 ## usage:
-- copy this to your github repo
+- copy this to your github repo.
 - add DIFF_DINGDING_TOKEN to your repo's secrets
 - modify the git in main.yaml (modify the below "README.md" to your path that you want to check the diff)
 eg: git diff $COMPARE README.md > temp
