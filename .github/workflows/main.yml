@@ -31,6 +31,8 @@ jobs:
           export PATH="."
         else
           export PATH=${{secrets.DIFF_PATH}}
+        fi
+        echo $PATH
         git diff $COMPARE $PATH > temp
         echo 'DIFFLOG<<EOF' >> $GITHUB_ENV
         cat temp
