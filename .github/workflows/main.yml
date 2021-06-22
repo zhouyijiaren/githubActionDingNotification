@@ -41,7 +41,7 @@ jobs:
       if: ${{ success() && env.DIFFLOG != ''}}
       uses: fifsky/dingtalk-action@master
       with:
-        url: https://oapi.dingtalk.com/robot/send?access_token={{DIFF_DINGDING_TOKEN}}
+        url: https://oapi.dingtalk.com/robot/send?access_token=${{secrets.DIFF_DINGDING_TOKEN}}
         type: text
         content: |
           💯👨‍💻 Success ${{ env.PR_USER }}
@@ -51,7 +51,7 @@ jobs:
       if: ${{ failure() }}
       uses: fifsky/dingtalk-action@master
       with:
-        url: https://oapi.dingtalk.com/robot/send?access_token={{DIFF_DINGDING_TOKEN}}
+        url: https://oapi.dingtalk.com/robot/send?access_token=${{secrets.DIFF_DINGDING_TOKEN}}
         type: markdown
         content: |
           # 💤🤷‍♀️ failure 🙅‍♂️💣
