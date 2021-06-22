@@ -19,18 +19,10 @@ jobs:
     # 获取PR信息并将其添加到环境变量
     - name: set PR_INFO 
       run: |
-        echo PR_USER=$(jq --raw-output .compare "$GITHUB_EVENT_PATH") >> $GITHUB_ENV
-        cat $GITHUB_EVENT_PATH
-        echo "$(jq '.comment.id' $GITHUB_EVENT_PATH)"
+        echo COMPARE_URL=$(jq --raw-output .compare "$GITHUB_EVENT_PATH") >> $GITHUB_ENV
         export COMPARE=$(jq '.compare' $GITHUB_EVENT_PATH|sed 's/\"//g' | sed 's/.*\/\([^\/]*\)$/\1/')
-        export AFTER=$(jq '.after' $GITHUB_EVENT_PATH|sed 's/\"//g')
-        export BEFORE=$(jq '.before' $GITHUB_EVENT_PATH|sed 's/\"//g')
-        echo $PATH
-        echo $COMPARE
-        pwd
-        git diff $COMPARE .github > temp
+        git diff $COMPARE README.md > temp
         echo 'DIFFLOG<<EOF' >> $GITHUB_ENV
-        cat temp
         cat temp >> $GITHUB_ENV
         echo 'EOF' >> $GITHUB_ENV
         
@@ -46,7 +38,7 @@ jobs:
         url: https://oapi.dingtalk.com/robot/send?access_token=${{secrets.DIFF_DINGDING_TOKEN}}
         type: text
         content: |
-          💯👨‍💻 Success ${{ env.PR_USER }}
+          💯👨‍💻 Success ${{ env.COMPARE_URL }}
           
           ${{ env.DIFFLOG }}
     - name: maven build failure
@@ -58,4 +50,4 @@ jobs:
         content: |
           # 💤🤷‍♀️ failure 🙅‍♂️💣
           > Maven Build of fail
-          ${{ env.PR_USER }}
+          ${{ env.COMPARE_URL }}
